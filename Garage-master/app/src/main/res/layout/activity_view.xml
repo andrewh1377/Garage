@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.andrew.garage.ViewActivity">
 
+
     <TextView
         android:id="@+id/TempView"
         android:layout_width="277dp"

@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:name=".ViewActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".AdminActivity"></activity>
