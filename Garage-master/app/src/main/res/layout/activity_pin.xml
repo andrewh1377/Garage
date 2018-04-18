@@ -178,6 +178,7 @@
         android:id="@+id/DeleteButton"
         android:layout_width="56dp"
         android:layout_height="38dp"
+        android:background="@drawable/delete_button"
         android:text="Del"
         app:layout_constraintBottom_toTopOf="@+id/ThreeButton"
         app:layout_constraintEnd_toEndOf="parent"
