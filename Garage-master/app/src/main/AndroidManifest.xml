@@ -21,10 +21,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:name=".ViewActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".AdminActivity"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".GuestPinActivity"></activity>
     </application>
 
 </manifest>

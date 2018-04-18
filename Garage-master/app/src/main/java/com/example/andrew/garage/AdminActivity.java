@@ -1,5 +1,6 @@
 package com.example.andrew.garage;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class AdminActivity extends AppCompatActivity {
     WebView mWebView;
     Button powerButton;
     TextView userView;
+    Button guestPin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class AdminActivity extends AppCompatActivity {
 
         userView = findViewById(R.id.userNameView);
         powerButton = findViewById(R.id.PowerButton);
+        guestPin = findViewById(R.id.GuestPinButton);
         mWebView = findViewById(R.id.activity_View);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
@@ -53,6 +56,14 @@ public class AdminActivity extends AppCompatActivity {
             Toast.makeText(AdminActivity.this, "Connection Failed!",
                     Toast.LENGTH_SHORT).show();
         }
+
+        guestPin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(AdminActivity.this, GuestPinActivity.class));
+            }
+
+        });
 
         powerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +117,7 @@ public class AdminActivity extends AppCompatActivity {
 
         }
     }
+
 
 
 }
