@@ -10,8 +10,8 @@
 
     <WebView
         android:id="@+id/activity_View"
-        android:layout_width="0dp"
-        android:layout_height="279dp"
+        android:layout_width="350dp"
+        android:layout_height="293dp"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
@@ -24,8 +24,8 @@
 
     <Button
         android:id="@+id/PowerButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="322dp"
+        android:layout_height="85dp"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="48dp"
         android:layout_marginLeft="48dp"
@@ -40,50 +40,51 @@
 
     <TextView
         android:id="@+id/stateView"
-        android:layout_width="0dp"
-        android:layout_height="25dp"
+        android:layout_width="331dp"
+        android:layout_height="22dp"
         android:layout_marginBottom="9dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="State"
         app:layout_constraintBottom_toTopOf="@+id/tempView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/activity_View"
         app:layout_constraintTop_toBottomOf="@+id/GuestPinButton"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tempView"
-        android:layout_width="0dp"
-        android:layout_height="22dp"
+        android:layout_width="327dp"
+        android:layout_height="21dp"
         android:layout_marginBottom="7dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"
-        android:layout_marginStart="33dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:text="Temperature"
         app:layout_constraintBottom_toTopOf="@+id/activity_View"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/stateView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/activity_View"
         app:layout_constraintTop_toBottomOf="@+id/stateView" />
 
     <TextView
         android:id="@id/userNameView"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="55dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="56dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="55dp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/stateView"
-        app:layout_constraintEnd_toStartOf="@+id/GuestPinButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="179dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:gravity="left"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/stateView"
+        app:layout_constraintStart_toStartOf="@+id/stateView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline8"
@@ -108,15 +109,17 @@
 
     <Button
         android:id="@+id/GuestPinButton"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="38dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginRight="33dp"
-        android:layout_marginTop="16dp"
-        android:text="Guest ID"
-        app:layout_constraintBottom_toTopOf="@+id/stateView"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="131dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/number_buttons"
+
+        android:text="Guest Pin"
+        app:layout_constraintEnd_toEndOf="@+id/activity_View"
         app:layout_constraintStart_toEndOf="@+id/userNameView"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -127,7 +127,7 @@ public class GuestPinActivity extends AppCompatActivity implements View.OnClickL
             System.out.println(credBase64);
             String response = "";
 
-            String url = "http://108.218.183.252/Login.php?Pin=" + pinCode;
+            String url = "http://108.218.183.252/GuestPin.php?Pin=" + pinCode;
             System.out.println(url);
             DefaultHttpClient client = new DefaultHttpClient();
 
