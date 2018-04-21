@@ -22,18 +22,17 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class AdminActivity extends AppCompatActivity {
 
     WebView mWebView;
-    Button powerButton;
+    Button powerButton, guestPin;
     TextView userView;
-    Button guestPin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
+        guestPin = findViewById(R.id.GuestPinButton);
         userView = findViewById(R.id.userNameView);
         powerButton = findViewById(R.id.PowerButton);
-        guestPin = findViewById(R.id.GuestPinButton);
         mWebView = findViewById(R.id.activity_View);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
@@ -57,12 +56,11 @@ public class AdminActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
 
-        guestPin.setOnClickListener(new View.OnClickListener(){
+        guestPin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                startActivity(new Intent(AdminActivity.this, GuestPinActivity.class));
+            public void onClick(View view) {
+                launchActivity0();
             }
-
         });
 
         powerButton.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +116,9 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
-
+    private void launchActivity0() {
+        Intent intent = new Intent(this, GuestPinActivity.class);
+        startActivity(intent);
+    }
 
 }

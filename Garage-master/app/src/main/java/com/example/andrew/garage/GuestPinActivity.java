@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -31,20 +30,20 @@ public class GuestPinActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_guest_pin);
 
 
-        Button b0= findViewById(R.id.ZeroButton);
-        Button b1= findViewById(R.id.OneButton);
-        Button b2= findViewById(R.id.TwoButton);
-        Button b3= findViewById(R.id.ThreeButton);
-        Button b4= findViewById(R.id.FourButton);
-        Button b5= findViewById(R.id.FiveButton);
-        Button b6= findViewById(R.id.SixButton);
-        Button b7= findViewById(R.id.SevenButton);
-        Button b8= findViewById(R.id.EightButton);
-        Button b9= findViewById(R.id.NineButton);
-        Button bPound= findViewById(R.id.PoundButton);
-        Button bStar= findViewById(R.id.StarButton);
-        Button bEnter= findViewById(R.id.EnterButton);
-        Button bDelete= findViewById(R.id.DeleteButton);
+        Button b0= findViewById(R.id.zeroButton);
+        Button b1= findViewById(R.id.oneButton);
+        Button b2= findViewById(R.id.twoButton);
+        Button b3= findViewById(R.id.threeButton);
+        Button b4= findViewById(R.id.fourButton);
+        Button b5= findViewById(R.id.fiveButton);
+        Button b6= findViewById(R.id.sixButton);
+        Button b7= findViewById(R.id.sevenButton);
+        Button b8= findViewById(R.id.eightButton);
+        Button b9= findViewById(R.id.nineButton);
+        Button bPound= findViewById(R.id.poundButton);
+        Button bStar= findViewById(R.id.starButton);
+        Button bEnter= findViewById(R.id.enterButton);
+        Button bDelete= findViewById(R.id.deleteButton);
         b0.setOnClickListener(this);
         b1.setOnClickListener(this);
         b2.setOnClickListener(this);
@@ -59,56 +58,55 @@ public class GuestPinActivity extends AppCompatActivity implements View.OnClickL
         bStar.setOnClickListener(this);
         bEnter.setOnClickListener(this);
         bDelete.setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
-        result = findViewById(R.id.PasswordText);
+        result = findViewById(R.id.passwordText);
         pin = result.getText().toString();
         switch (v.getId())
         {
-            case R.id.ZeroButton:
+            case R.id.zeroButton:
                 result.append("0");
                 break;
-            case R.id.OneButton:
+            case R.id.oneButton:
                 result.append("1");
                 break;
-            case R.id.TwoButton:
+            case R.id.twoButton:
                 result.append("2");
                 break;
-            case R.id.ThreeButton:
+            case R.id.threeButton:
                 result.append("3");
                 break;
-            case R.id.FourButton:
+            case R.id.fourButton:
                 result.append("4");
                 break;
-            case R.id.FiveButton:
+            case R.id.fiveButton:
                 result.append("5");
                 break;
-            case R.id.SixButton:
+            case R.id.sixButton:
                 result.append("6");
                 break;
-            case R.id.SevenButton:
+            case R.id.sevenButton:
                 result.append("7");
                 break;
-            case R.id.EightButton:
+            case R.id.eightButton:
                 result.append("8");
                 break;
-            case R.id.NineButton:
+            case R.id.nineButton:
                 result.append("9");
                 break;
-            case R.id.PoundButton:
+            case R.id.poundButton:
                 result.append("#");
                 break;
-            case R.id.StarButton:
+            case R.id.starButton:
                 result.append("*");
                 break;
-            case R.id.EnterButton:
+            case R.id.enterButton:
                 Background b = new Background();
                 b.execute(pin);
                 break;
-            case R.id.DeleteButton:
+            case R.id.deleteButton:
                 result.setText("");
                 break;
 
@@ -173,11 +171,6 @@ public class GuestPinActivity extends AppCompatActivity implements View.OnClickL
             if (pinData.equals(pin) && adminData.equals("1")) {
                 launchActivity0(userData);
             }
-            else if (pinData.equals(pin) && adminData.equals("0")){
-                launchActivity1();
-            }
-            else
-                launchActivity2();
 
         }
     }
@@ -188,14 +181,5 @@ public class GuestPinActivity extends AppCompatActivity implements View.OnClickL
         intent.putExtra("USER_ID", userData);
         startActivity(intent);
     }
-    private void launchActivity1() {
-        Intent intent = new Intent(this, ViewActivity.class);
-        startActivity(intent);
-    }
-    private void launchActivity2(){
-        Toast.makeText(this, "Incorrect Pin!",
-                Toast.LENGTH_SHORT).show();
-    }
-
 
 }
