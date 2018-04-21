@@ -21,13 +21,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class GuestPinActivity extends AppCompatActivity implements View.OnClickListener {
-    String pin;
+    String pin, userString;
     TextView result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_pin);
+        Bundle info = getIntent().getExtras();
+        userString = info.getString("USER_ID");
+
 
 
         Button b0= findViewById(R.id.zeroButton);
@@ -167,18 +170,15 @@ public class GuestPinActivity extends AppCompatActivity implements View.OnClickL
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
 
-
-            if (pinData.equals(pin) && adminData.equals("1")) {
-                launchActivity0(userData);
-            }
+                launchActivity0();
 
         }
     }
 
 
-    private void launchActivity0(String userData) {
+    private void launchActivity0() {
         Intent intent = new Intent(this, AdminActivity.class);
-        intent.putExtra("USER_ID", userData);
+        intent.putExtra("USER_ID", userString);
         startActivity(intent);
     }
 

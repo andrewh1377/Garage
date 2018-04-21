@@ -22,23 +22,25 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class AdminActivity extends AppCompatActivity {
 
     WebView mWebView;
-    Button powerButton, guestPin;
+    Button powerButton;
     TextView userView;
+    Button guestPin;
+    String userString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        guestPin = findViewById(R.id.GuestPinButton);
         userView = findViewById(R.id.userNameView);
         powerButton = findViewById(R.id.PowerButton);
+        guestPin = findViewById(R.id.GuestPinButton);
         mWebView = findViewById(R.id.activity_View);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
 
         Bundle info = getIntent().getExtras();
-        String userString = info.getString("USER_ID");
+        userString = info.getString("USER_ID");
         userView.setText("Welcome " + userString +"!");
 
 
@@ -117,7 +119,8 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void launchActivity0() {
-        Intent intent = new Intent(this, GuestPinActivity.class);
+        Intent intent = new Intent(AdminActivity.this, GuestPinActivity.class);
+        intent.putExtra("USER_ID", userString);
         startActivity(intent);
     }
 
