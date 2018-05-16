@@ -12,8 +12,13 @@ import android.widget.Toast;
 import android.util.Base64;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -23,9 +28,9 @@ public class AdminActivity extends AppCompatActivity {
 
     WebView mWebView;
     Button powerButton;
-    TextView userView;
+    TextView userView, state_view, temp_view;
     Button guestPin;
-    String userString;
+    String userString, state, temp, flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,8 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
 
         userView = findViewById(R.id.userNameView);
+        state_view = findViewById(R.id.stateView);
+        temp_view = findViewById(R.id.tempView);
         powerButton = findViewById(R.id.PowerButton);
         guestPin = findViewById(R.id.GuestPinButton);
         mWebView = findViewById(R.id.activity_View);
@@ -41,9 +48,10 @@ public class AdminActivity extends AppCompatActivity {
 
         Bundle info = getIntent().getExtras();
         userString = info.getString("USER_ID");
-        userView.setText("Welcome " + userString +"!");
-
-
+        userView.setText("Welcome " + userString + "!");
+        Background b = new Background();
+        flag = "0";
+        b.execute(flag);
 
 
         String piAddress = "http://108.218.183.252:8081";
@@ -69,53 +77,90 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Background b = new Background();
-                b.execute();
+                flag = "1";
+                b.execute(flag);
             }
         });
 
+
     }
+
+
     class Background extends AsyncTask<String, String, String> {
         //String response;
-
         @Override
         protected String doInBackground(String... params) {
+            String url;
             String credentials = "pi:andy4444";
             String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
             String response = "";
 
-            String url = "http://@108.218.183.252/?trigger=1";
-            DefaultHttpClient client = new DefaultHttpClient();
+            if (flag == "1") {
+                url = "http://@108.218.183.252/?trigger=1";
+                DefaultHttpClient client = new DefaultHttpClient();
 
-            HttpGet httpGet = new HttpGet(String.valueOf(url));
-            httpGet.setHeader("Authorization", "Basic " + credBase64);
-            try {
-                HttpResponse execute = client.execute(httpGet);
-                InputStream content = execute.getEntity().getContent();
+                HttpGet httpGet = new HttpGet(String.valueOf(url));
+                httpGet.setHeader("Authorization", "Basic " + credBase64);
+                try {
+                    HttpResponse execute = client.execute(httpGet);
+                    InputStream content = execute.getEntity().getContent();
 
-                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                String s = "";
-                while ((s = buffer.readLine()) != null) {
-                    response += s;
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            } else if (flag == "0") {
+                url = "http://@108.218.183.252/testArduino.txt";
+                DefaultHttpClient client = new DefaultHttpClient();
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                HttpGet httpGet = new HttpGet(String.valueOf(url));
+                httpGet.setHeader("Authorization", "Basic " + credBase64);
+                try {
+                    HttpResponse execute = client.execute(httpGet);
+                    InputStream content = execute.getEntity().getContent();
+
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return response;
         }
 
         @Override
         protected void onPostExecute(String response) {
-            try {
-                Toast.makeText(AdminActivity.this, "Door Opening",
-                        Toast.LENGTH_SHORT).show();
+            if (flag == "1") {
+                try {
+                    Toast.makeText(AdminActivity.this, "Door Opening",
+                            Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(AdminActivity.this, "Something Went Wrong!!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            } else if (flag == "0") {
+                state_view.setText("The garage is " + response);
+                temp_view.setText("The temperature is " + response);
+                System.out.println(response);
+                if (response == " Tyler loves the D!"){
+                    powerButton.setText("OPEN");
+                }
+                else{
+                    powerButton.setText("CLOSE");
+                }
             }
-            catch (Exception e) {
-                Toast.makeText(AdminActivity.this, "Something Went Wrong!!",
-                        Toast.LENGTH_SHORT).show();
-            }
-
         }
+
+
     }
 
     private void launchActivity0() {
@@ -123,5 +168,4 @@ public class AdminActivity extends AppCompatActivity {
         intent.putExtra("USER_ID", userString);
         startActivity(intent);
     }
-
 }
