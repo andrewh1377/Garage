@@ -30,7 +30,7 @@ public class AdminActivity extends AppCompatActivity {
     Button powerButton;
     TextView userView, state_view, temp_view;
     Button guestPin;
-    String userString, state, temp, flag;
+    String userString, flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,13 @@ public class AdminActivity extends AppCompatActivity {
         userString = info.getString("USER_ID");
         userView.setText("Welcome " + userString + "!");
         Background b = new Background();
+        Background c = new Background();
+
         flag = "0";
         b.execute(flag);
+
+        flag = "2";
+        c.execute(flag);
 
 
         String piAddress = "http://108.218.183.252:8081";
@@ -115,7 +120,26 @@ public class AdminActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else if (flag == "0") {
-                url = "http://@108.218.183.252/testArduino.txt";
+                url = "http://@108.218.183.252/temp.txt";
+                DefaultHttpClient client = new DefaultHttpClient();
+
+                HttpGet httpGet = new HttpGet(String.valueOf(url));
+                httpGet.setHeader("Authorization", "Basic " + credBase64);
+                try {
+                    HttpResponse execute = client.execute(httpGet);
+                    InputStream content = execute.getEntity().getContent();
+
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else if (flag == "2") {
+                url = "http://@108.218.183.252/distance.txt";
                 DefaultHttpClient client = new DefaultHttpClient();
 
                 HttpGet httpGet = new HttpGet(String.valueOf(url));
@@ -148,8 +172,8 @@ public class AdminActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
             } else if (flag == "0") {
-                state_view.setText("The garage is " + response);
-                temp_view.setText("The temperature is " + response);
+                //state_view.setText("The garage is " + response);
+                temp_view.setText(response);
                 System.out.println(response);
                 if (response == " Tyler loves the D!"){
                     powerButton.setText("OPEN");
@@ -157,6 +181,9 @@ public class AdminActivity extends AppCompatActivity {
                 else{
                     powerButton.setText("CLOSE");
                 }
+            } else if (flag == "2") {
+                state_view.setText("The garage is " + response);
+                System.out.println(response);
             }
         }
 
