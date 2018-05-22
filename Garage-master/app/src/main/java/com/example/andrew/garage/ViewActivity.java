@@ -21,19 +21,31 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class ViewActivity extends AppCompatActivity {
 
     WebView mWebView;
+    TextView state_view, temp_view;
     Button powerButton;
+    String flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
+
+        state_view = findViewById(R.id.stateView);
+        temp_view = findViewById(R.id.tempView);
         powerButton = findViewById(R.id.PowerButton);
-
-
-        String piAddress = "http://108.218.183.252:8081";
         mWebView = (WebView)findViewById(R.id.activity_View);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setUseWideViewPort(true);
+
+        Background b = new Background();
+        Background c = new Background();
+
+        b.execute("temp");
+        c.execute("status");
+
+
+        String piAddress = "http://108.218.183.252:8081";
+
         try {
             //Load URL to WebView
             mWebView.loadUrl(piAddress);
@@ -48,51 +60,103 @@ public class ViewActivity extends AppCompatActivity {
         powerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                flag = "power";
                 Background b = new Background();
-                b.execute();
+                b.execute(flag);
             }
         });
 
     }
     class Background extends AsyncTask<String, String, String> {
-        //String response;
-
         @Override
         protected String doInBackground(String... params) {
+            String url;
             String credentials = "pi:andy4444";
             String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
             String response = "";
 
-            String url = "http://@108.218.183.252/?trigger=1";
-            DefaultHttpClient client = new DefaultHttpClient();
+            if (params[0] == "power") {
+                url = "http://@108.218.183.252/?trigger=1";
+                DefaultHttpClient client = new DefaultHttpClient();
 
-            HttpGet httpGet = new HttpGet(String.valueOf(url));
-            httpGet.setHeader("Authorization", "Basic " + credBase64);
-            try {
-                HttpResponse execute = client.execute(httpGet);
-                InputStream content = execute.getEntity().getContent();
+                HttpGet httpGet = new HttpGet(String.valueOf(url));
+                httpGet.setHeader("Authorization", "Basic " + credBase64);
+                try {
+                    HttpResponse execute = client.execute(httpGet);
+                    InputStream content = execute.getEntity().getContent();
 
-                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                String s = "";
-                while ((s = buffer.readLine()) != null) {
-                    response += s;
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            } else if (params[0] == "temp") {
+                url = "http://@108.218.183.252/temp.txt";
+                DefaultHttpClient client = new DefaultHttpClient();
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                HttpGet httpGet = new HttpGet(String.valueOf(url));
+                httpGet.setHeader("Authorization", "Basic " + credBase64);
+                try {
+                    HttpResponse execute = client.execute(httpGet);
+                    InputStream content = execute.getEntity().getContent();
+
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+
+                    temp_view.setText(response);
+                    System.out.println(response);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (params[0] == "status") {
+                url = "http://@108.218.183.252/distance.txt";
+                DefaultHttpClient client = new DefaultHttpClient();
+
+                HttpGet httpGet = new HttpGet(String.valueOf(url));
+                httpGet.setHeader("Authorization", "Basic " + credBase64);
+                try {
+                    HttpResponse execute = client.execute(httpGet);
+                    InputStream content = execute.getEntity().getContent();
+
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+
+                    state_view.setText("The Garage is " + response);
+                    System.out.println(response);
+                    if (response == "Closed") {
+                        powerButton.setText("OPEN");
+                    } else {
+                        powerButton.setText("CLOSE");
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return response;
         }
 
         @Override
         protected void onPostExecute(String response) {
-            try {
-                Toast.makeText(ViewActivity.this, "Door Opening",
-                        Toast.LENGTH_SHORT).show();
-            }
-            catch (Exception e) {
-                Toast.makeText(ViewActivity.this, "Something Went Wrong!!",
-                        Toast.LENGTH_SHORT).show();
+            if (flag == "power") {
+                try {
+                    Toast.makeText(ViewActivity.this, "Door Opening",
+                            Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(ViewActivity.this, "Something Went Wrong!!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
 
         }
