@@ -30,7 +30,7 @@ public class AdminActivity extends AppCompatActivity {
     Button powerButton;
     TextView userView, state_view, temp_view;
     Button guestPin;
-    String userString, state, temp, flag;
+    String userString, flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +49,13 @@ public class AdminActivity extends AppCompatActivity {
         Bundle info = getIntent().getExtras();
         userString = info.getString("USER_ID");
         userView.setText("Welcome " + userString + "!");
+
         Background b = new Background();
-        flag = "0";
-        b.execute(flag);
+        Background c = new Background();
+
+        b.execute("temp");
+        c.execute("status");
+
 
 
         String piAddress = "http://108.218.183.252:8081";
@@ -77,7 +81,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Background b = new Background();
-                flag = "1";
+                flag = "power";
                 b.execute(flag);
             }
         });
@@ -87,7 +91,6 @@ public class AdminActivity extends AppCompatActivity {
 
 
     class Background extends AsyncTask<String, String, String> {
-        //String response;
         @Override
         protected String doInBackground(String... params) {
             String url;
@@ -95,7 +98,7 @@ public class AdminActivity extends AppCompatActivity {
             String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
             String response = "";
 
-            if (flag == "1") {
+            if (params[0] == "power") {
                 url = "http://@108.218.183.252/?trigger=1";
                 DefaultHttpClient client = new DefaultHttpClient();
 
@@ -114,8 +117,8 @@ public class AdminActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (flag == "0") {
-                url = "http://@108.218.183.252/testArduino.txt";
+            } else if (params[0] == "temp") {
+                url = "http://@108.218.183.252/temp.txt";
                 DefaultHttpClient client = new DefaultHttpClient();
 
                 HttpGet httpGet = new HttpGet(String.valueOf(url));
@@ -130,6 +133,37 @@ public class AdminActivity extends AppCompatActivity {
                         response += s;
                     }
 
+                    temp_view.setText(response);
+                    System.out.println(response);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else if (params[0] == "status") {
+                url = "http://@108.218.183.252/distance.txt";
+                DefaultHttpClient client = new DefaultHttpClient();
+
+                HttpGet httpGet = new HttpGet(String.valueOf(url));
+                httpGet.setHeader("Authorization", "Basic " + credBase64);
+                try {
+                    HttpResponse execute = client.execute(httpGet);
+                    InputStream content = execute.getEntity().getContent();
+
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                    String s = "";
+                    while ((s = buffer.readLine()) != null) {
+                        response += s;
+                    }
+
+                    state_view.setText("The Garage is " + response);
+                    System.out.println(response);
+                    if (response == "Closed"){
+                        powerButton.setText("OPEN");
+                    }
+                    else{
+                        powerButton.setText("CLOSE");
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -140,7 +174,7 @@ public class AdminActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String response) {
-            if (flag == "1") {
+            if (flag == "power") {
                 try {
                     Toast.makeText(AdminActivity.this, "Door Opening",
                             Toast.LENGTH_SHORT).show();
@@ -148,6 +182,7 @@ public class AdminActivity extends AppCompatActivity {
                     Toast.makeText(AdminActivity.this, "Something Went Wrong!!",
                             Toast.LENGTH_SHORT).show();
                 }
+<<<<<<< HEAD
             } else if (flag == "0") {
                 state_view.setText(response);
                 temp_view.setText(response);
@@ -158,6 +193,8 @@ public class AdminActivity extends AppCompatActivity {
                 else{
                     powerButton.setText("CLOSE");
                 }
+=======
+>>>>>>> dfa8273612912adcda234bd28e897a2c948e9129
             }
         }
 
