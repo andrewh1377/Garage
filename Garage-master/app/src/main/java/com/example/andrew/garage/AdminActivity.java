@@ -134,6 +134,7 @@ public class AdminActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            response.toString();
             return response;
         }
 
@@ -148,10 +149,10 @@ public class AdminActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
             } else if (flag == "0") {
-                state_view.setText("The garage is " + response);
-                temp_view.setText("The temperature is " + response);
+                state_view.setText(response);
+                temp_view.setText(response);
                 System.out.println(response);
-                if (response == " Tyler loves the D!"){
+                if (response == "Tyler loves the D!"){
                     powerButton.setText("OPEN");
                 }
                 else{
