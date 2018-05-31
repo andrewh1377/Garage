@@ -168,6 +168,7 @@ public class AdminActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            response.toString();
             return response;
         }
 
@@ -181,6 +182,19 @@ public class AdminActivity extends AppCompatActivity {
                     Toast.makeText(AdminActivity.this, "Something Went Wrong!!",
                             Toast.LENGTH_SHORT).show();
                 }
+<<<<<<< HEAD
+            } else if (flag == "0") {
+                state_view.setText(response);
+                temp_view.setText(response);
+                System.out.println(response);
+                if (response == "Tyler loves the D!"){
+                    powerButton.setText("OPEN");
+                }
+                else{
+                    powerButton.setText("CLOSE");
+                }
+=======
+>>>>>>> dfa8273612912adcda234bd28e897a2c948e9129
             }
         }
 
