@@ -117,7 +117,7 @@ public class ViewActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else if (params[0] == "status") {
-                url = "http://@108.218.183.252/distance.txt";
+                url = "http://@108.218.183.252/distance_2.txt";
                 DefaultHttpClient client = new DefaultHttpClient();
 
                 HttpGet httpGet = new HttpGet(String.valueOf(url));
@@ -149,16 +149,7 @@ public class ViewActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String response) {
-            if (flag == "power") {
-                try {
-                    Toast.makeText(ViewActivity.this, "Door Opening",
-                            Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    Toast.makeText(ViewActivity.this, "Something Went Wrong!!",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-
+            System.out.print(response);
         }
     }
 

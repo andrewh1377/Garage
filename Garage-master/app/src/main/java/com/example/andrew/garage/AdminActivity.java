@@ -140,7 +140,7 @@ public class AdminActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }else if (params[0] == "status") {
-                url = "http://@108.218.183.252/distance.txt";
+                url = "http://@108.218.183.252/distance_2.txt";
                 DefaultHttpClient client = new DefaultHttpClient();
 
                 HttpGet httpGet = new HttpGet(String.valueOf(url));
@@ -174,28 +174,7 @@ public class AdminActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String response) {
-            if (flag == "power") {
-                try {
-                    Toast.makeText(AdminActivity.this, "Door Opening",
-                            Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    Toast.makeText(AdminActivity.this, "Something Went Wrong!!",
-                            Toast.LENGTH_SHORT).show();
-                }
-<<<<<<< HEAD
-            } else if (flag == "0") {
-                state_view.setText(response);
-                temp_view.setText(response);
-                System.out.println(response);
-                if (response == "Tyler loves the D!"){
-                    powerButton.setText("OPEN");
-                }
-                else{
-                    powerButton.setText("CLOSE");
-                }
-=======
->>>>>>> dfa8273612912adcda234bd28e897a2c948e9129
-            }
+            System.out.print(response);
         }
 
 
