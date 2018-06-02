@@ -2,6 +2,7 @@ package com.example.andrew.garage;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -51,12 +54,31 @@ public class AdminActivity extends AppCompatActivity {
         userView.setText("Welcome " + userString + "!");
 
         Background b = new Background();
+        b.execute("temp");
+
+
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+          @Override
+          public void run() {
+              handler.post(new Runnable() {
+                  public void run() {
+                      Background c = new Background();
+                      c.execute("status");
+                  }
+              });
+          }
+        };
+
+        timer.schedule(task, 0, 15000);
+        /*
+        Background b = new Background();
         Background c = new Background();
 
         b.execute("temp");
         c.execute("status");
-
-
+        */
 
         String piAddress = "http://108.218.183.252:8081";
         try {
@@ -85,8 +107,14 @@ public class AdminActivity extends AppCompatActivity {
                 b.execute(flag);
             }
         });
+    }
 
-
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, PinActivity.class);
+        intent. addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -117,7 +145,7 @@ public class AdminActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (params[0] == "temp") {
+            } if (params[0] == "temp") {
                 url = "http://@108.218.183.252/temp.txt";
                 DefaultHttpClient client = new DefaultHttpClient();
 
@@ -139,7 +167,7 @@ public class AdminActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else if (params[0] == "status") {
+            } if (params[0] == "status") {
                 url = "http://@108.218.183.252/distance_2.txt";
                 DefaultHttpClient client = new DefaultHttpClient();
 
@@ -157,10 +185,10 @@ public class AdminActivity extends AppCompatActivity {
 
                     state_view.setText("The Garage is " + response);
                     System.out.println(response);
-                    if (response == "Closed"){
+                    char stat = response.charAt(0);
+                    if (stat == 'C'){
                         powerButton.setText("OPEN");
-                    }
-                    else{
+                    } else {
                         powerButton.setText("CLOSE");
                     }
 

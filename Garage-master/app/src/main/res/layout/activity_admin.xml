@@ -32,7 +32,6 @@
         android:layout_marginRight="48dp"
         android:layout_marginStart="48dp"
         android:background="@drawable/power_button"
-        android:text="Power"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

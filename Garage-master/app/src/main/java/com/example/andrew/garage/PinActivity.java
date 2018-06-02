@@ -118,7 +118,6 @@ public class PinActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-
     class Background extends AsyncTask<String, String, String> {
         //String response;
 
